@@ -1,0 +1,25 @@
+
+# Classes
+Every	KEYWORD1
+Pattern	KEYWORD1
+Timer	KEYWORD1
+Toggle	KEYWORD1
+# Structs
+# Typedefs
+# Enums
+# Methods
+after	KEYWORD1
+Every	KEYWORD1
+Pattern	KEYWORD1
+reset	KEYWORD1
+seq_count	KEYWORD1
+Timer	KEYWORD1
+Toggle	KEYWORD1
+until	KEYWORD1
+# #define
+# members
+interval	LITERAL2
+last	LITERAL2
+running	LITERAL2
+seq_count	LITERAL2
+state	LITERAL2
