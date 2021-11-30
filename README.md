@@ -15,6 +15,112 @@ Non-blocking replacements for delay().  Several convenient ways to use them.
 * `Every::Toggle` will keep track of a toggling `boolean` for you.
 * `Every::Pattern` is like `Every` but you can have a sequence of different intervals.
 
+See below for "Comparison with other libraries".
+
+## Comparison with other libraries.
+
+As of 2021, September.
+
+### delay(), builtin
+
+* delay() is builtin, Every is a library to install.
+* Every doesn't block, so you can do many timer related things together. This is the whole motivation.
+* Every tries to prevent drift.
+
+### AsyncDelay, Steve Marple <stevemarple@googlemail.com>
+
+* A non-blocking timer.
+* You can do periodics by explicitly calling `repeat()`, which tries to prevent drift.
+
+### BlockNot, Michael Sims <sims.mike@gmail.com>
+
+* Combines periodics and a timer, so more similar to Every.
+* A little more complex.
+* Can try to prevent drift.
+* Tries to cover a lot of cases.
+
+### "MyDelay"
+  Author: Marshall Gates <mggates@gmail.com>
+    Maintainer: Marshall Gates <mggates@gmail.com>
+      Sentence: Arduino library that provides a non-blocking repeating timer with callback functionality.
+
+      https://github.com/mggates39/MyDelay
+
+### "NoDelay"
+  Author: Mario Avenoso <mario@mtechcreations.com>
+    Sentence: Arduino library to make use of the Millis funtion for non Blocking Delays.
+
+      sntence: Arduino library to make use of the Millis funtion for non Blocking Delays.
+
+### Ticker, Stefan Staub <email@domain.com>
+  Sentence: A library for creating Tickers which can call repeating functions. Replaces delay() with non-blocking functions.
+
+      https://github.com/sstaub/Ticker
+
+
+### CMMC Easy, Chiang Mai Maker Club<info@cmmakerclub.com>
+
+* Very thin documentation.
+* Has dedicated "blink".
+
+### RBD_Timer"
+  Author: Alex Taujenis <alex.taujenis@gmail.com>
+    https://github.com/alextaujenis/RBD_Timer
+
+### TimerEvent"
+  Author: cygig <rubbish52@hotmail.com>
+    Maintainer: cygig <rubbish52@hotmail.com>
+      Sentence: TimerEvent is a non-blocking alternative to the delay() function.
+https://github.com/cygig/TimerEvent
+
+### UniversalTimer"
+  Author: Michael Granz
+    Maintainer: Michael Granz <michaelgranzDev@gmail.com>
+      Sentence: Easy to use, multifunctional and non-blocking timer.
+      https://github.com/michaelgranz/UniversalTimer
+
+### arduino-timer"
+  Author: Michael Contreras
+    Maintainer: Michael Contreras
+      Sentence: Timer library for delaying function calls
+      https://github.com/contrem/arduino-timer
+
+### avdweb_VirtualDelay"
+  Author: Albert van Dalen
+    Maintainer: Albert van Dalen <a@maxun.cc>
+      Sentence: Allows using (multiple) delays without blocking code execution. Arduino Uno and Zero.
+      https://github.com/avandalen/VirtualDelay
+
+### muTimer"
+  Author: Michael Uray <mu@spamfence.net>
+    Maintainer: Michael Uray <mu@spamfence.net>
+      Sentence: Arduino library to easily use on/off delays and cycle timers with non-blocking functions.
+      https://github.com/MichaelUray/muTimer
+
+### ptScheduler"
+  Author: Vishnu Mohanan
+    Maintainer: Vishnu Mohanan
+      Sentence: Arduino library for writing non-blocking periodic tasks without using delay or millis routines.
+      https://github.com/vishnumaiea/ptScheduler
+
+### SimpleTicker"
+  Author: JSC electronics
+    Maintainer: JSC electronics, development@jsce.cz
+      Sentence: A library for creating Tickers, which will notify user that a given period has elapsed. Replaces delay() and allows user
+      s to write non-blocking code.
+https://github.com/JSC-electronics/Ticker
+
+### DelayExec"
+  Author: Sébastien Millet
+    Maintainer: Sébastien Millet <milletseb@laposte.net>
+
+* Different style.
+
+### Other
+
+E.g. Animately, Nicholas Koza: an animation framework.
+Several multitasking libraries (CoopTask, AceRoutine, etc).
+
 ## Every: every n milliseconds
 
 Replaces `delay(n)`, without blocking. So multiple things can run together.

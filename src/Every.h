@@ -11,11 +11,19 @@
 
   
     static Every t1(100);  // every 100 msec
+
+    void setup() {
+      ... 
+      
+      // considerable time can pass from global construction to now
+      t1.reset();
+      }
     
     if ( t1() ) { do it; }
 
     * Details
       The "every" object has to be static/global, obviously because it needs to remember the "last" time.
+      Note the `.reset()` to start timing just before the first loop()!
       
       The object + "()" is magic: returns a boolean meaning "just expired?" (and restarts for the next interval.
 
@@ -39,7 +47,12 @@
 
     // "blink" example using EveryToggle
     Every::Toggle t1(200); // adds the .state() method
-    void setup() { pinMode(LED_BUILTIN, OUTPUT); }
+    void setup() {
+      pinMode(LED_BUILTIN, OUTPUT); }
+
+      // considerable time can pass from global construction to now
+      t1.reset();
+      }
 
     void loop() {
       if ( t1() ) {
@@ -66,6 +79,13 @@
     // adds the .sequence() method
     static EverySequence t1(150, 4,abcd); // have to say "4" to say how long the sequence is
 
+    void setup() {
+      ... 
+      
+      // considerable time can pass from global construction to now
+      t1.reset();
+      }
+
     // Prints a,b,c,d,a,b,c,d, with a delay of 100 between
     if ( t1() ) { Serial.println( t1.sequence() ) };
 
@@ -78,6 +98,7 @@
 
     * Details
       You can use a lambda that has a capture. But, you can refer to global/static objects.
+      Note the `.reset()` to start timing just before the first loop()!
 
       functions/lambdas/functors will be called with no arguments.
       
@@ -129,7 +150,7 @@ class Every {
       
       if (diff >= interval) {
         unsigned long drift = diff % interval;
-        //Serial << "drift " << last << " now " << now << " d: " << drift << endl;
+        // DEBUG << "drift " << last << " now " << now << " d: " << drift << endl;
         last = now;
         last -= drift;
         return true;
@@ -215,9 +236,11 @@ class Every::Toggle : public Every { // not really a ...Sequence
 class Every::Pattern : public Every {
     // has a pattern of msecs
     // e.g.
-    //    static Every::Pattern heartbeat(500);
+    //    static const unsigned long pattern[] = { 1.0, 0.5, 2.0 };
+    //    static Every::Pattern heartbeat(array_size(pattern), pattern);
+    //    void setup() { ...  t1.reset(); /* considerable time can pass from global construction to now */ }
     //    heartbeat( []() {
-    //      digitalWrite(LED_BUILTIN, !(heartbeat.sequence() % 2) );
+    //      digitalWrite(LED_BUILTIN, !(heartbeat.state % 2) );
     //    });
 
   public:
@@ -234,11 +257,11 @@ class Every::Pattern : public Every {
     Pattern(bool now = false)
       : Every(1000, now)
     { 
-    const static unsigned long _heartbeat[] = {150,250,150,700}; // heart
+      const static unsigned long _heartbeat[] = {150,250,150,700}; // heart
 
-    this->seq_count = 4;
-    this->_pattern = _heartbeat;
-    this->interval = _pattern[0];
+      this->seq_count = 4;
+      this->_pattern = _heartbeat;
+      this->interval = _pattern[0];
     }
 
     boolean operator()() {
