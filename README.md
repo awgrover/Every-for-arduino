@@ -6,12 +6,12 @@
 
 (For a Processing version, see )
 
-(For a circuitpythong version, see )
+(For a circuitpython version, see )
 
 Non-blocking replacements for delay().  Several convenient ways to use them.
 
 * `Every` will let you act _at_ every `n` `millis()`.
-* `Timer` will let you act _once_ when `n` `millis()` has gone by.
+* `Timer` will let you act _once_ when `n` `millis()` has gone by. Manual .reset() to do it again.
 * `Every::Toggle` will keep track of a toggling `boolean` for you.
 * `Every::Pattern` is like `Every` but you can have a sequence of different intervals.
 
