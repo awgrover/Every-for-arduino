@@ -4,7 +4,7 @@
   Non-blocking replacements for delay().
   Several convenient ways to use them.
   Every will tell you _at_ every n millis().
-  Timer will tell you (once) when n millis() has gone by (or after, or until)
+  Every::Timer will tell you (once) when n millis() has gone by (or after, or until)
   Every::Toggle will keep track of a toggling boolean for you.
 
   * Every n millis
@@ -37,7 +37,7 @@
       Resists drift by "re-aligning" when it detects that the interval has expired. E.g. if it should
       happen every 100 msec, but you don't test till 30msec late (i.e. at 130msec), it will fire, and
       re-align to fire at 200msec. Thus, it's not an interval, it's "_on_ every n msec". For small
-      amounts of drift, this is probably nice. For larger amounts, might be confusing (see Timer). 
+      amounts of drift, this is probably nice. For larger amounts, might be confusing (see Every::Timer). 
 
       There's no suspend/stop. That would add at least 1 boolean more memory!
 
@@ -66,7 +66,7 @@
     if ( t1() ) { Serial.println( t1.state ); } // prints 0,1,2..9, with delay of 100 between
 
   * Tell when an interval has passed
-    static Timer(1000);
+    static Every::Timer(1000);
 
     if ( t1() ) { Serial.println("1 second"); } // once
 
@@ -198,6 +198,80 @@ class Every {
 
     class Toggle;
     class Pattern;
+    class Timer;
+};
+
+class EveryMicros {
+  public:
+    // everthing public
+    unsigned long last; // last time we fired
+    unsigned long interval = 1000; // "delay" till next firing
+
+    // set interval at x() time, default 1000
+    EveryMicros(bool now = false) : EveryMicros( 1000, now) {}
+
+    EveryMicros(int interval, bool now = false) : EveryMicros( (unsigned long) interval, now) {}
+    EveryMicros(unsigned long interval, bool now = false) : interval(interval) {
+      last = micros(); // so, would wait for interval
+
+      if (now) {
+        last -= interval; // adjust to "already expired"
+      }
+    }
+
+    virtual boolean operator()() {
+      // lots of this class means lots of calls to micros()
+      unsigned long now = micros(); // minimize drift due to this fn
+      unsigned long diff = now - last;
+      
+      if (diff >= interval) {
+        unsigned long drift = diff % interval;
+        // DEBUG << "drift " << last << " now " << now << " d: " << drift << endl;
+        last = now;
+        last -= drift;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    // so you can use "bare" numbers like 100 for 100msec
+    boolean operator()(int x_interval) { return (*this)( (unsigned long) x_interval); }
+    boolean operator()(unsigned long x_interval) {
+      unsigned long now = micros(); // minimize drift due to this fn
+      unsigned long diff = now - last;
+
+      if (diff >= x_interval) {
+        unsigned long drift = diff % x_interval;
+        //Serial << "drift " << last << " now " << now << " d: " << drift << endl;
+        last = now;
+        last -= drift;
+        return true;
+      }
+      else {
+        return false;
+      }
+  
+    }
+
+    template <typename T>
+    boolean operator()(T lambdaF ) {
+      // simple lambda: []() { do something };
+      boolean hit = (*this)();
+      if (hit) lambdaF();
+      return hit;
+    }
+
+    // sadly, the 'virtual' also prevents optimizing away an unused 'interval' instance-var
+    virtual void reset(boolean now=false) {
+      last = micros();
+      if (now) last -= interval;
+    }
+    void reset(unsigned long interval, boolean now=false) { 
+      this->interval=interval; 
+      reset(now); 
+      }
+
 };
 
 class Every::Toggle : public Every { // not really a ...Sequence
@@ -289,7 +363,8 @@ class Every::Pattern : public Every {
     }
 };
 
-class Timer { // True, once, after n millis
+class Every::Timer {
+  // True, once, after n millis
   // NB: Slightly different methods than Every
   public:
     unsigned long last;

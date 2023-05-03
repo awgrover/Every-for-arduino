@@ -1,6 +1,7 @@
 
 # Classes
 Every	KEYWORD1
+EveryMicros	KEYWORD1
 Pattern	KEYWORD1
 Timer	KEYWORD1
 Toggle	KEYWORD1
@@ -10,6 +11,7 @@ Toggle	KEYWORD1
 # Methods
 after	KEYWORD1
 Every	KEYWORD1
+EveryMicros	KEYWORD1
 Pattern	KEYWORD1
 reset	KEYWORD1
 seq_count	KEYWORD1

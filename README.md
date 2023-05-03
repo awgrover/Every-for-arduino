@@ -11,7 +11,7 @@
 Non-blocking replacements for delay().  Several convenient ways to use them.
 
 * `Every` will let you act _at_ every `n` `millis()`.
-* `Timer` will let you act _once_ when `n` `millis()` has gone by. Manual .reset() to do it again.
+* `Every::Timer` will let you act _once_ when `n` `millis()` has gone by. Manual .reset() to do it again.
 * `Every::Toggle` will keep track of a toggling `boolean` for you.
 * `Every::Pattern` is like `Every` but you can have a sequence of different intervals.
 
@@ -48,7 +48,7 @@ Takes 8 bytes of RAM for `Every` object.
 Resists drift by "re-aligning" when it detects that the interval has expired. E.g. if it should
 happen every 100 msec, but you don't test till 30msec late (i.e. at 130msec), it will fire, and
 re-align to fire at 200msec. Thus, it's not an interval, it's "_on_ every n msec". For small
-amounts of drift, this is probably nice. For larger amounts, might be confusing (see Timer). 
+amounts of drift, this is probably nice. For larger amounts, might be confusing (see Every::Timer). 
 
 There's no suspend/stop. That would add at least 1 boolean more memory!
 
@@ -76,14 +76,14 @@ See `examples`.
 
 Adds the `.state` variable. It keeps the true/false state till the next interval.
 
-## Timer: tell when an interval has expired (once).
+## Every::Timer: tell when an interval has expired (once).
 
 Like `Every`, but only happens once. E.g. "2 seconds after a button push, make a sound".
 You can restart a timer.
 
 See `examples`.
 
-    static Timer t1(1000); // and starts running
+    static Every::Timer t1(1000); // and starts running
 
     // once, after start of program
     if ( t1() ) { 
@@ -92,7 +92,7 @@ See `examples`.
 
 Don't run till .reset()
 
-      static Timer t1(1000, false); // will never expire, unless you reset()
+      static Every::Timer t1(1000, false); // will never expire, unless you reset()
 
 Restart the timer 
 
@@ -116,7 +116,7 @@ Are we after an expiration? `.after` `.until`
 
 ## Every::Pattern: a sequence of intervals.
 
-Easier than stringing together a series of Timers. Repeats the sequence.
+Easier than stringing together a series of Every::Timers. Repeats the sequence.
 
 See `examples/blink`.
 
