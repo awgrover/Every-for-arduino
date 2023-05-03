@@ -202,23 +202,8 @@ Other concerns:
 * does it fire on the first test, or delay first? settable?
 
 
-
-
 ### Other
 
 E.g. Animately, Nicholas Koza: an animation framework.
 Several multitasking libraries (CoopTask, AceRoutine, etc).
 
-Other concerns:
-
-* bytes of code per use
-* bytes of ram per use (or flash)
-* what other issues were taken into consideration? e.g. samd sleeps
-
-
-
-
-### Other
-
-E.g. Animately, Nicholas Koza: an animation framework.
-Several multitasking libraries (CoopTask, AceRoutine, etc).

@@ -1,5 +1,12 @@
 #include <every.h> // Every by Alan Grover
 
+/* short version
+
+  unsigned long serial_start = millis();
+  while ( ! Serial && (millis() - serial_start < 1000) ) { delay(10); }
+
+*/
+
 void setup() {
   // Standard block to wait for serial on "USB CDC", aka native usb, e.g. samd21 etc's
   // if not plugged in to usb, continue eventually
@@ -9,7 +16,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
   // always wait, assume serial will work after serial_wait time
-  while(! serial_wait()) { 
+  while(! (Serial || serial_wait()) ) {
     if (fast_flash()) digitalWrite( LED_BUILTIN, ! digitalRead(LED_BUILTIN) );
     delay(10); // the delay allows upload to interrupt
     } 
