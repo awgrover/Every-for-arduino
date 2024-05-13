@@ -4,9 +4,7 @@
 
 (For earlier commit history, see https://github.com/awgrover/misc_arduino_tools/commits/master/every )
 
-(For a Processing version, see )
-
-(For a circuitpython version, see )
+(For a circuitpython version, see https://github.com/awgrover/every-py )
 
 Non-blocking replacements for delay().  Several convenient ways to use them.
 
