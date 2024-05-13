@@ -310,7 +310,7 @@ class Every::Toggle : public Every { // not really a ...Sequence
 class Every::Pattern : public Every {
     // has a pattern of msecs
     // e.g.
-    //    static const unsigned long pattern[] = { 1.0, 0.5, 2.0 };
+    //    static const unsigned long pattern[] = { 1000, 500, 2000 };
     //    static Every::Pattern heartbeat(array_size(pattern), pattern);
     //    void setup() { ...  t1.reset(); /* considerable time can pass from global construction to now */ }
     //    heartbeat( []() {
